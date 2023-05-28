@@ -3,16 +3,17 @@
 Contains the class DBStorage
 """
 
-import models
+# import models
 from models.amenity import Amenity
-from models.base_model import BaseModel, Base
+# from models.base_model import BaseModel, Base
+from models.base_model import Base
 from models.city import City
 from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
 from os import getenv
-import sqlalchemy
+# import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
@@ -52,21 +53,21 @@ class DBStorage:
         return (new_dict)
 
     def get(self, cls, id):
-        """gets the object matching class name and id from storage"""
-        if type(cls) != str or type(id) != str:
+        """method to retrieve one object based on cls and id"""
+        try:
+            return self.all(cls).get("{}.{}".format(cls, id))
+        except Exception:
             return None
-        my_cls = classes.get(cls)
-        if my_cls is None:
-            return None
-        return self.__session.query(my_cls).filter(my_cls.id == id).first()
 
     def count(self, cls=None):
-        """gets the count for a class name or all objects if cls is None"""
-        if cls is None:
+        """method to count the number of objects in storage"""
+        if cls:
+            try:
+                return len(self.all(cls))
+            except Exception:
+                return None
+        else:
             return len(self.all())
-        if type(cls) != str:
-            return 0
-        return len(self.all(cls))
 
     def new(self, obj):
         """add the object to the current database session"""
