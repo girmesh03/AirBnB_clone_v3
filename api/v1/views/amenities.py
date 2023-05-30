@@ -4,7 +4,7 @@ handles REST API actions for Amenity
 """
 from api.v1.views import app_views
 from flask import jsonify
-from flask import Flask
+# from flask import Flask
 from flask import request
 from flask import abort
 from models import storage
@@ -24,7 +24,7 @@ def amenity():
         new_name = post_data.get('name')
         if new_name is None:
             return jsonify({'error': 'Missing name'}), 400
-        new_amenity = Ameninity(**post_data)
+        new_amenity = Amenity(**post_data)
         new_amenity.save()
         return jsonify(new_amenity.to_dict()), 201
 

@@ -4,7 +4,7 @@ handles REST API actions for place
 """
 from api.v1.views import app_views
 from flask import jsonify
-from flask import Flask
+# from flask import Flask
 from flask import request
 from flask import abort
 from os import getenv
@@ -73,26 +73,33 @@ def places_search():
     """searches for places using the posted http_body"""
     post_data = request.get_json()
     places_search = []
+
     if post_data is None or type(post_data) != dict:
         return jsonify({'error': 'Not a JSON'}), 400
     place = storage.all('Place').values()
+
     if len(post_data) == 0:
         return jsonify([x.to_dict() for x in place])
     state_ids = post_data.get('states')
+
     if state_ids is None:
         state_ids = []
     city_ids = post_data.get('cities')
+
     if city_ids is None:
         city_ids = []
     amen_ids = post_data.get('amenities')
+
     if amen_ids is None:
         amen_ids = []
-    if len(state_ids) == 0 and len(city_ids) == 0 and len(amenity_ids) == 0:
+
+    if len(state_ids) == 0 and len(city_ids) == 0 and len(amen_ids) == 0:
         return jsonify([x.to_dict() for x in place])
+
     for c in city_ids:
         city = storage.get('City', c)
         if city is not None:
-            for p in city.places and p.to_dict() not in places_search:
+            for p in city.places and city.to_dict() not in places_search:
                 places_search.append(p.to_dict())
     for s in state_ids:
         state = storage.get('State', s)

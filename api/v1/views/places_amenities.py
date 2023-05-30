@@ -5,12 +5,12 @@ handles REST API actions for Place Amenity
 from api.v1.views import app_views
 from os import getenv
 from flask import jsonify
-from flask import Flask
-from flask import request
+# from flask import Flask
+# from flask import request
 from flask import abort
 from models import storage
-from models.place import Place
-from models.amenity import Amenity
+# from models.place import Place
+# from models.amenity import Amenity
 
 
 @app_views.route(
@@ -42,7 +42,7 @@ def place_amenity_post(place_id, amenity_id):
             in_list_fs = False
     if amenity in place.amenities and in_list_fs:
         return jsonify(amenity.to_dict()), 200
-    if getev('HBNB_TYPE_STORAGE') != 'db':
+    if getenv('HBNB_TYPE_STORAGE') != 'db':
         place.amenity_ids.append(amenity_id)
     else:
         place.amenities.append(amenity)

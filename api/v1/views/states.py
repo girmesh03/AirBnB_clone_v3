@@ -4,7 +4,7 @@ handles REST API actions for State
 """
 from api.v1.views import app_views
 from flask import jsonify
-from flask import Flask
+# from flask import Flask
 from flask import request
 from flask import abort
 from models import storage
