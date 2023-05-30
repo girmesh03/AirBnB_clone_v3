@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """
-Contains the TestAmenityDocs class for
-testing the documentation of the Amenity class.
+Contains the TestAmenityDocs classes
 """
 
 # from datetime import datetime
